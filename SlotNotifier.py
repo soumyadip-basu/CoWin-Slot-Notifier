@@ -56,7 +56,7 @@ class SlotNotifier:
 
                 for elem in centerList:
                     if str(elem['center_id']) == centerId:
-                        print("Center "+str(centerId)+"located in latest query")
+                        print("Center " + str(centerId) + " located in latest query")
                         for session in elem['sessions']:
                             if session['available_capacity'] != 0:
                                 foundFlag = True
