@@ -8,4 +8,4 @@ Utility to query the CoWIN database using the public API to find open vaccinatio
   Select states, district and centres on the left panel. The selected centers will show up on the right panel.
 * Pings the API every 10 secs. Logs shown in the bottom panel.
 * If slot found, will sound an alarm, and show center, date and no.of slots in the bottom panel.
-* Windows utility
+* Windows utility may be generated using pyinstaller / auto-py-to-exe
