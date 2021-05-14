@@ -17,7 +17,7 @@ class SlotNotifier:
 
         prevTime = datetime.datetime.now()
         firstRun = True
-        MsgPass.MsgPass.msgQ.append("**Starting notification service**")
+        self.enqueueLog("**Starting notification service**")
         self.interval = 10
 
         while True:
@@ -62,15 +62,18 @@ class SlotNotifier:
                                 foundFlag = True
                                 msg = "!!FOUND!!  " + "Center: " + elem['name'] + "  Date: " + session['date'] + "  Capacity: " + str(session['available_capacity'])
                                 print(msg)
-                                MsgPass.MsgPass.msgQ.append(msg)
+                                self.enqueueLog(msg)
 
             if not foundFlag:
                 print("No slots found, checking in " + str(self.interval) + " sec")
-                MsgPass.MsgPass.msgQ.append("No slots found, checking in " + str(self.interval) + " sec")
+                self.enqueueLog("No slots found, checking in " + str(self.interval) + " sec")
             else:
                 winsound.Beep(frequency, duration)
 
 
             prevTime = datetime.datetime.now()
 
-        MsgPass.MsgPass.msgQ.append("**Stopping notification service**")
+        self.enqueueLog("**Stopping notification service**")
+
+    def enqueueLog(self, msg):
+        MsgPass.MsgPass.msgQ.append(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " : " + msg)
