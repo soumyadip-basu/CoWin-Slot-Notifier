@@ -18,6 +18,8 @@ class QTGui:
 
     def __init__(self):
         self.checkedCenters = dict()
+        self.removeAfter = 1000
+
     def window(self):
         try:
             app = QApplication(sys.argv)
@@ -230,7 +232,7 @@ class QTGui:
         while len(MsgPass.MsgPass.msgQ) > 0:
             c = QLabel(MsgPass.MsgPass.msgQ.pop())
             self.msgLayout.addWidget(c)
-        self.removeAfter = 1000
+
 
         if self.msgLayout.count() > self.removeAfter:
             for i in range(self.msgLayout.count() - self.removeAfter):

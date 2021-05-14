@@ -7,6 +7,9 @@ import MsgPass
 
 class SlotNotifier:
 
+    def __init__(self):
+        self.interval = 10
+
     def runService(self, centerDict):
         if len(centerDict) == 0:
             return
@@ -18,7 +21,7 @@ class SlotNotifier:
         prevTime = datetime.datetime.now()
         firstRun = True
         self.enqueueLog("**Starting notification service**")
-        self.interval = 10
+
 
         while True:
             if MsgPass.MsgPass.runstatus == False:
