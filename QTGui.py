@@ -186,11 +186,9 @@ class QTGui:
             widgetToRemove.setParent(None)
         self.allCenters = []
         self.checks = []
-        self.selectAllChk.blockSignals(True)
-        self.selectAllChk.setChecked(False)
-        self.selectAllChk.blockSignals(False)
-        self.searchBox.setText("")
 
+        self.searchBox.setText("")
+        anyUnchecked = False
         for elem in calendar['centers']:
             label = str(elem["center_id"]) + ":" + elem["name"] + "," + elem["address"] + "," + str(elem["pincode"])
             self.allCenters.append(label)
@@ -198,10 +196,15 @@ class QTGui:
             self.centreLayout.addWidget(c)
             if label in self.checkedCenters.keys():
                 c.setChecked(True)
+            else:
+                anyUnchecked = True
             c.stateChanged.connect(self.selectionStateChanged)
             self.checks.append(c)
 
         self.centreLayout.update()
+        self.selectAllChk.blockSignals(True)
+        self.selectAllChk.setChecked(not anyUnchecked)
+        self.selectAllChk.blockSignals(False)
 
     def selectionStateChanged(self, int):
 

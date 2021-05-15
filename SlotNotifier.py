@@ -69,6 +69,7 @@ class SlotNotifier:
                     print("Center " + str(centerId) + " located in latest query")
                 else:
                     print("Center " + str(centerId) + " NOT FOUND in latest query")
+                    self.enqueueLog("Center " + str(center) + " NOT FOUND in latest query")
 
 
             if not foundFlag:
