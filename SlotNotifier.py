@@ -54,18 +54,22 @@ class SlotNotifier:
                 distId = centerDict[center]
                 print("center: ", centerId)
                 print("district: ", distId)
-
-
+                centerFound = False
 
                 for elem in centerList:
                     if str(elem['center_id']) == centerId:
-                        print("Center " + str(centerId) + " located in latest query")
+                        centerFound = True
                         for session in elem['sessions']:
                             if session['available_capacity'] != 0:
                                 foundFlag = True
                                 msg = "!!FOUND!!  " + "Center: " + elem['name'] + "  Date: " + session['date'] + "  Capacity: " + str(session['available_capacity'])
                                 print(msg)
                                 self.enqueueLog(msg)
+                if centerFound:
+                    print("Center " + str(centerId) + " located in latest query")
+                else:
+                    print("Center " + str(centerId) + " NOT FOUND in latest query")
+
 
             if not foundFlag:
                 print("No slots found, checking in " + str(self.interval) + " sec")
