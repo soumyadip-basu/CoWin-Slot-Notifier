@@ -5,7 +5,8 @@ import threading
 
 from PyQt5.QtCore import Qt, QTimer
 from PyQt5.QtGui import QFont
-from PyQt5.QtWidgets import QApplication, QComboBox, QVBoxLayout, QCheckBox, QScrollArea, QLabel, QLineEdit
+from PyQt5.QtWidgets import QApplication, QComboBox, QVBoxLayout, QCheckBox, QScrollArea, QLabel, QLineEdit, \
+    QRadioButton
 from PyQt5.QtWidgets import QGridLayout
 from PyQt5.QtWidgets import QPushButton
 from PyQt5.QtWidgets import QWidget
@@ -23,6 +24,7 @@ class QTGui:
         self.allCenters = []
         self.checkedCenters = dict()
         self.removeAfter = 1000
+        self.dose = 1
 
     def window(self):
         try:
@@ -65,6 +67,25 @@ class QTGui:
             self.searchBox.setPlaceholderText("Search...")
             self.searchBox.textChanged.connect(self.textChanged)
             layout.addWidget(self.searchBox, row, 1, 1, 3)
+
+            labelDose = QLabel("Select Dose:")
+            #labelDose.setFont(QFont("Times", weight=QFont.Bold))
+
+            layout.addWidget(labelDose, row, 4, 1, 1)
+
+
+            radiobutton = QRadioButton("Dose 1")
+            radiobutton.setChecked(True)
+            radiobutton.dose = 1
+            radiobutton.toggled.connect(lambda:self.onSelectRadio(radiobutton))
+            layout.addWidget(radiobutton, row, 5, 1, 1)
+
+            radiobutton2 = QRadioButton("Dose 2")
+            radiobutton2.setChecked(False)
+            radiobutton2.dose = 2
+            radiobutton2.toggled.connect(lambda:self.onSelectRadio(radiobutton2))
+            layout.addWidget(radiobutton2, row, 6, 1, 1)
+
 
             row += 1
 
@@ -233,7 +254,7 @@ class QTGui:
         MsgPass.MsgPass.runstatus = True
         slotNotifier = SlotNotifier.SlotNotifier()
         centers = copy.deepcopy(self.checkedCenters)
-        t1 = threading.Thread(target=slotNotifier.runService, args=(centers,))
+        t1 = threading.Thread(target=slotNotifier.runService, args=(centers, self.dose,))
         t1.start()
 
     def stopService(self):
@@ -302,6 +323,11 @@ class QTGui:
             chkbox.blockSignals(False)
 
         self.centreLayout.itemAt(self.centreLayout.count() - 1).widget().setChecked(chk.isChecked())
+
+    def onSelectRadio(self, button):
+
+        if button.isChecked():
+            self.dose = button.dose
 
     def closeEvent(self):
         print("Closing app")

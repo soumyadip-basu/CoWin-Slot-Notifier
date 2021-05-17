@@ -10,7 +10,7 @@ class SlotNotifier:
     def __init__(self):
         self.interval = 10
 
-    def runService(self, centerDict):
+    def runService(self, centerDict, dose):
         if len(centerDict) == 0:
             return
         self.getter = Getters.Getters()
@@ -60,7 +60,7 @@ class SlotNotifier:
                     if str(elem['center_id']) == centerId:
                         centerFound = True
                         for session in elem['sessions']:
-                            if session['available_capacity'] != 0:
+                            if session['available_capacity_dose' + str(dose)] != 0:
                                 foundFlag = True
                                 msg = "!!FOUND!!  " + "Center: " + elem['name'] + "  Date: " + session['date'] + "  Capacity: " + str(session['available_capacity'])
                                 print(msg)
