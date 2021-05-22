@@ -69,23 +69,21 @@ class QTGui:
             layout.addWidget(self.searchBox, row, 1, 1, 3)
 
             labelDose = QLabel("Select Dose:")
-            #labelDose.setFont(QFont("Times", weight=QFont.Bold))
+            # labelDose.setFont(QFont("Times", weight=QFont.Bold))
 
             layout.addWidget(labelDose, row, 4, 1, 1)
-
 
             radiobutton = QRadioButton("Dose 1")
             radiobutton.setChecked(True)
             radiobutton.dose = 1
-            radiobutton.toggled.connect(lambda:self.onSelectRadio(radiobutton))
+            radiobutton.toggled.connect(lambda: self.onSelectRadio(radiobutton))
             layout.addWidget(radiobutton, row, 5, 1, 1)
 
             radiobutton2 = QRadioButton("Dose 2")
             radiobutton2.setChecked(False)
             radiobutton2.dose = 2
-            radiobutton2.toggled.connect(lambda:self.onSelectRadio(radiobutton2))
+            radiobutton2.toggled.connect(lambda: self.onSelectRadio(radiobutton2))
             layout.addWidget(radiobutton2, row, 6, 1, 1)
-
 
             row += 1
 
@@ -141,6 +139,11 @@ class QTGui:
             self.button1.setText("Run Slot Notifier")
             self.button1.clicked.connect(self.runService)
             layout.addWidget(self.button1, row, 3, 1, 2)
+
+            self.buttonClear = QPushButton()
+            self.buttonClear.setText("Clear")
+            self.buttonClear.clicked.connect(self.clearSelections)
+            layout.addWidget(self.buttonClear, row, 6, 1, 1)
             row += 1
 
             self.button2 = QPushButton()
@@ -328,6 +331,17 @@ class QTGui:
 
         if button.isChecked():
             self.dose = button.dose
+
+    def clearSelections(self):
+        self.checkedCenters = {}
+        for i in reversed(range(self.selectedLayout.count())):
+            widgetToRemove = self.selectedLayout.itemAt(i).widget()
+            # remove it from the layout list
+            self.selectedLayout.removeWidget(widgetToRemove)
+            # remove it from the gui
+            widgetToRemove.setParent(None)
+        self.districtSelectionchange(0)
+
 
     def closeEvent(self):
         print("Closing app")

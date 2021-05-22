@@ -12,6 +12,7 @@ class SlotNotifier:
 
     def runService(self, centerDict, dose):
         if len(centerDict) == 0:
+            MsgPass.MsgPass.threadrunning = False
             return
         self.getter = Getters.Getters()
         frequency = 2500  # Set Frequency To 2500 Hertz
@@ -62,14 +63,14 @@ class SlotNotifier:
                         for session in elem['sessions']:
                             if session['available_capacity_dose' + str(dose)] != 0:
                                 foundFlag = True
-                                msg = "!!FOUND!!  " + "Center: " + elem['name'] + "  Date: " + session['date'] + "  Capacity: " + str(session['available_capacity'])
+                                msg = "!!FOUND!!  " + "Center: " + elem['name'] + "  Date: " + session['date'] + "  Capacity: " + str(session['available_capacity_dose' + str(dose)])
                                 print(msg)
                                 self.enqueueLog(msg)
                 if centerFound:
                     print("Center " + str(centerId) + " located in latest query")
                 else:
                     print("Center " + str(centerId) + " NOT FOUND in latest query")
-                    self.enqueueLog("Center " + str(center) + " NOT FOUND in latest query")
+                    #self.enqueueLog("Center " + str(center) + " NOT FOUND in latest query")
 
 
             if not foundFlag:
